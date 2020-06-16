@@ -1,15 +1,14 @@
 using RogueSheep;
-using SFML.Window;
 
 namespace BurglarOfBabylon
 {
     public class GameState
     {
-        public Point2i PlayerPosition { get; set; }
+        public MapEntity Player { get; set; }
 
         public GameState()
         {
-            PlayerPosition = (4, 4);
+            Player = new MapEntity((4, 4), new MapTile(CP437Glyph.AtSign, RogueColor.Lime));
         }
     }
 }

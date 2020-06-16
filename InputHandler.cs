@@ -16,16 +16,16 @@ namespace BurglarOfBabylon
             switch (e.Code)
             {
                 case Keyboard.Key.Up:
-                    gameState.PlayerPosition += (0, -1);
+                    gameState.Player.Move((0, -1));
                     break;
                 case Keyboard.Key.Down:
-                    gameState.PlayerPosition += (0, 1);
+                    gameState.Player.Move((0, 1));
                     break;
                 case Keyboard.Key.Left:
-                    gameState.PlayerPosition += (-1, 0);
+                    gameState.Player.Move((-1, 0));
                     break;
                 case Keyboard.Key.Right:
-                    gameState.PlayerPosition += (1, 0);
+                    gameState.Player.Move((1, 0));
                     break;
             }
         }

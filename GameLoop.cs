@@ -31,7 +31,7 @@ namespace BurglarOfBabylon
                 window.Clear();
 
                 mainDisplay.Clear();
-                mainDisplay.Draw("@", gameState.PlayerPosition, Color.Green, new RogueColor(127, 127, 127));
+                mainDisplay.Draw(gameState.Player.Appearance.Glyph, gameState.Player.Position, gameState.Player.Appearance.Color, new RogueColor(127, 127, 127));
                 mainDisplay.DrawToWindow(window);
 
                 window.Display();
