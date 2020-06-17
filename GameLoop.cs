@@ -31,7 +31,18 @@ namespace BurglarOfBabylon
                 window.Clear();
 
                 mainDisplay.Clear();
-                mainDisplay.Draw(gameState.Player.Appearance.Glyph, gameState.Player.Position, gameState.Player.Appearance.Color, new RogueColor(127, 127, 127));
+                // GetViewport with the same request size
+                // as the size of the map will always return full map
+                // so we can pass anything we want as the center
+                mainDisplay.Draw(gameState.CurrentMap.GetViewport(mainDisplay.Size, (0, 0)), (0, 0));
+
+                // then we draw all the actors on top of stuff
+                foreach (var actor in gameState.CurrentMap.Actors)
+                {
+                    mainDisplay.Draw(actor.Presentation, actor.Position);
+                }
+
+                // and finally blit this all to the window
                 mainDisplay.DrawToWindow(window);
 
                 window.Display();

@@ -1,26 +1,25 @@
 using RogueSheep;
+using RogueSheep.Display;
+using RogueSheep.Maps;
 
 namespace BurglarOfBabylon
 {
-    public class MapEntity
+    public class MapEntity : IHasPosition, IPresentable
     {
+        public string Name { get; }
         public Point2i Position { get; private set; }
-        public MapTile Appearance { get; private set; }
+        public GameTile Presentation { get; }
 
-        public MapEntity(Point2i position, MapTile appearance)
+        public MapEntity(string name, Point2i position, GameTile presentation)
         {
+            Name = name;
             Position = position;
-            Appearance = appearance;
+            Presentation = presentation;
         }
 
         public void Move(Point2i vector)
         {
             Position += vector;
-        }
-
-        public void ChangeAppearance(MapTile newAppearance)
-        {
-            Appearance = newAppearance;
         }
     }
 }
