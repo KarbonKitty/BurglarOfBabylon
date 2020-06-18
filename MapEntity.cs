@@ -17,9 +17,10 @@ namespace BurglarOfBabylon
             Presentation = presentation;
         }
 
-        public void Move(Point2i vector)
+        public bool Move(Point2i vector)
         {
             Position += vector;
+            return true;
         }
     }
 }

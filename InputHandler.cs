@@ -1,3 +1,4 @@
+using BurglarOfBabylon.Commands;
 using SFML.Window;
 
 namespace BurglarOfBabylon
@@ -13,21 +14,16 @@ namespace BurglarOfBabylon
 
         public void Window_KeyPressed(object? sender, KeyEventArgs e)
         {
-            switch (e.Code)
+            Command command = e.Code switch
             {
-                case Keyboard.Key.Up:
-                    gameState.Player.Move((0, -1));
-                    break;
-                case Keyboard.Key.Down:
-                    gameState.Player.Move((0, 1));
-                    break;
-                case Keyboard.Key.Left:
-                    gameState.Player.Move((-1, 0));
-                    break;
-                case Keyboard.Key.Right:
-                    gameState.Player.Move((1, 0));
-                    break;
-            }
+                Keyboard.Key.Up => new MoveCommand(gameState.Player, (0, -1)),
+                Keyboard.Key.Down => new MoveCommand(gameState.Player, (0, 1)),
+                Keyboard.Key.Left => new MoveCommand(gameState.Player, (-1, 0)),
+                Keyboard.Key.Right => new MoveCommand(gameState.Player, (1, 0)),
+                _ => new NullCommand()
+            };
+
+            CommandProcessor.ProcessCommand(command, gameState);
         }
     }
 }
