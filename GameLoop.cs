@@ -1,5 +1,6 @@
 using RogueSheep;
 using RogueSheep.Display;
+using RogueSheep.FieldOfView;
 using SFML.Graphics;
 
 namespace BurglarOfBabylon
@@ -46,13 +47,12 @@ namespace BurglarOfBabylon
                 // GetViewport with the same request size
                 // as the size of the map will always return full map
                 // so we can pass anything we want as the center
-                mainDisplay.Draw(gameState.CurrentMap.GetViewport(mainDisplay.Size, (0, 0)), (0, 0));
+                var fovFactory = new BevelledWallShadowcasting(gameState.CurrentMap.TransparencyGrid);
+                var visibilityGrid = fovFactory.Compute(gameState.Player.Position, 8);
 
-                // then we draw all the actors on top of stuff
-                foreach (var actor in gameState.CurrentMap.Actors)
-                {
-                    mainDisplay.Draw(actor.Presentation, actor.Position);
-                }
+                var viewport = gameState.CurrentMap.GetMaskedViewport(mainDisplay.Size, gameState.Player.Position, visibilityGrid);
+
+                mainDisplay.Draw(viewport, (0, 0));
 
                 // and finally blit this all to the window
                 mainDisplay.DrawToWindow(window);

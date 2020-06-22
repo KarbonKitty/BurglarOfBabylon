@@ -18,7 +18,7 @@ namespace BurglarOfBabylon
             var actors = new List<MapEntity>
             {
                 Player,
-                new MapEntity("Random guard", (7, 16), new GameTile(CP437Glyph.CapitalG, RogueColor.DarkMagenta))
+                new MapEntity("Random guard", (7, 21), new GameTile(CP437Glyph.CapitalG, RogueColor.DarkMagenta))
             };
 
             var mapObjects = Floor38.Tiles.Select(t => TileDefinitions.MapObjectMapping[t]).ToArray();
