@@ -1,3 +1,4 @@
+using BurglarOfBabylon.Commands;
 using RogueSheep;
 using RogueSheep.Display;
 using RogueSheep.FieldOfView;
@@ -43,6 +44,8 @@ namespace BurglarOfBabylon
 
                 window.Clear();
 
+                ProcessTurn();
+
                 mainDisplay.Clear();
                 // GetViewport with the same request size
                 // as the size of the map will always return full map
@@ -63,6 +66,25 @@ namespace BurglarOfBabylon
                 messageDisplay.DrawToWindow(window);
 
                 window.Display();
+            }
+        }
+
+        private void ProcessTurn()
+        {
+            while (true)
+            {
+                var command = gameState.Scheduler.Current().Act(gameState);
+
+                var turnEnded = CommandProcessor.ProcessCommand(command, gameState);
+
+                if (turnEnded)
+                {
+                    gameState.Scheduler.Next();
+                }
+                else
+                {
+                    return;
+                }
             }
         }
     }

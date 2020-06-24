@@ -6,9 +6,9 @@ using RogueSheep.Maps;
 
 namespace BurglarOfBabylon
 {
-    public class Map : GameMapBase<MapEntity>
+    public class Map : GameMapBase<Actor>
     {
-        public Map(IMapTile[] tiles, IEnumerable<MapEntity> actors)
+        public Map(IMapTile[] tiles, IEnumerable<Actor> actors)
             : base(tiles,
                 GameConsts.MapWidth,
                 actors,

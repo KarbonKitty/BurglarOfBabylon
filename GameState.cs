@@ -1,26 +1,32 @@
 using System.Collections.Generic;
 using System.Linq;
+using BurglarOfBabylon.AI;
 using BurglarOfBabylon.Maps;
 using RogueSheep;
 using RogueSheep.Display;
+using RogueSheep.Schedulers;
 
 namespace BurglarOfBabylon
 {
     public class GameState
     {
         public Map CurrentMap { get; set; }
-        public MapEntity Player { get; set; }
+        public Actor Player { get; set; }
+        public IScheduler<Actor> Scheduler { get; }
 
         public GameState()
         {
-            Player = new MapEntity("Bob", (58, 58), new GameTile(CP437Glyph.AtSign, RogueColor.Lime));
+            Player = new Actor("Bob", (58, 58), new GameTile(CP437Glyph.AtSign, RogueColor.Lime), new PlayerBrain());
 
-            var actors = new List<MapEntity>
+            var actors = new List<Actor>
             {
                 Player,
-                new MapEntity("Random guard", (11, 10), new GameTile(CP437Glyph.CapitalG, RogueColor.DarkMagenta)),
-                new MapEntity("Another random guard", (52, 52), new GameTile(CP437Glyph.CapitalG, RogueColor.Magenta))
+                new Actor("Random guard", (11, 10), new GameTile(CP437Glyph.CapitalG, RogueColor.DarkMagenta), new WanderBrain()),
+                new Actor("Another random guard", (52, 52), new GameTile(CP437Glyph.CapitalG, RogueColor.Magenta), new WanderBrain())
             };
+
+            Scheduler = new RoundRobinScheduler<Actor>();
+            Scheduler.AddRange(actors);
 
             var mapObjects = Office.Tiles.Select(t => TileDefinitions.MapObjectMapping[t]).ToArray();
 

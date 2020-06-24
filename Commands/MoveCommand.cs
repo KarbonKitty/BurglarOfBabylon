@@ -7,7 +7,7 @@ namespace BurglarOfBabylon.Commands
     {
         public Point2i Vector { get; }
 
-        public MoveCommand(MapEntity originator, Point2i vector) : base(originator)
+        public MoveCommand(Actor originator, Point2i vector) : base(originator)
         {
             if (originator is null)
             {

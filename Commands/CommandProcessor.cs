@@ -7,7 +7,7 @@ namespace BurglarOfBabylon.Commands
         public static bool ProcessCommand(Command command, GameState state) => command switch
         {
             MoveCommand m => ProcessMoveCommand(m, state),
-            NullCommand _ => true,
+            NullCommand _ => false,
             _ => throw new InvalidOperationException("This type of command is not yet handled")
         };
 

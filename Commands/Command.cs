@@ -2,9 +2,9 @@ namespace BurglarOfBabylon.Commands
 {
     public abstract class Command
     {
-        public MapEntity? Originator { get; }
+        public Actor? Originator { get; }
 
-        protected Command(MapEntity? originator)
+        protected Command(Actor? originator)
         {
             Originator = originator;
         }

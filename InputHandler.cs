@@ -1,3 +1,4 @@
+using BurglarOfBabylon.AI;
 using BurglarOfBabylon.Commands;
 using SFML.Window;
 
@@ -33,7 +34,10 @@ namespace BurglarOfBabylon
                 _ => new NullCommand()
             };
 
-            CommandProcessor.ProcessCommand(command, gameState);
+            if (gameState.Player.Brain is PlayerBrain)
+            {
+                (gameState.Player.Brain as PlayerBrain)!.StoredCommand = command;
+            }
         }
     }
 }
