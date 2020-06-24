@@ -13,15 +13,16 @@ namespace BurglarOfBabylon
 
         public GameState()
         {
-            Player = new MapEntity("Bob", (2, 16), new GameTile(CP437Glyph.AtSign, RogueColor.Lime));
+            Player = new MapEntity("Bob", (58, 58), new GameTile(CP437Glyph.AtSign, RogueColor.Lime));
 
             var actors = new List<MapEntity>
             {
                 Player,
-                new MapEntity("Random guard", (7, 21), new GameTile(CP437Glyph.CapitalG, RogueColor.DarkMagenta))
+                new MapEntity("Random guard", (11, 10), new GameTile(CP437Glyph.CapitalG, RogueColor.DarkMagenta)),
+                new MapEntity("Another random guard", (52, 52), new GameTile(CP437Glyph.CapitalG, RogueColor.Magenta))
             };
 
-            var mapObjects = Floor38.Tiles.Select(t => TileDefinitions.MapObjectMapping[t]).ToArray();
+            var mapObjects = Office.Tiles.Select(t => TileDefinitions.MapObjectMapping[t]).ToArray();
 
             CurrentMap = new Map(mapObjects, actors);
         }
