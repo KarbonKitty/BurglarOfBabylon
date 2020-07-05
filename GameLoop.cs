@@ -3,6 +3,7 @@ using RogueSheep;
 using RogueSheep.Display;
 using RogueSheep.FieldOfView;
 using SFML.Graphics;
+using SFML.Window;
 
 namespace BurglarOfBabylon
 {
@@ -34,6 +35,7 @@ namespace BurglarOfBabylon
             var inputHandler = new InputHandler(gameState);
 
             window.KeyPressed += inputHandler.Window_KeyPressed;
+            window.MouseButtonPressed += Window_MouseButtonPressed;
         }
 
         public void Run()
@@ -86,6 +88,23 @@ namespace BurglarOfBabylon
                     return;
                 }
             }
+        }
+
+        private void Window_MouseButtonPressed(object? sender, MouseButtonEventArgs e)
+        {
+            if (e.X > mainDisplay.Offset.X && e.X < (mainDisplay.Offset.X + mainDisplay.SizePx.X)
+                &&
+                e.Y > mainDisplay.Offset.Y && e.Y < (mainDisplay.Offset.Y + mainDisplay.SizePx.Y))
+                {
+                    messageDisplay.Clear();
+
+                    Point2i pixelPositionInside = (e.X - mainDisplay.Offset.X, e.Y - mainDisplay.Offset.Y);
+                    Point2i gridPositionInside = (pixelPositionInside.X / DisplayConsts.MainFontWidth, pixelPositionInside.Y / DisplayConsts.MainFontHeight);
+
+                    var description = gameState.CurrentMap.GetDescription(gridPositionInside);
+
+                    messageDisplay.Draw($"{description}", (1, 2));
+                }
         }
     }
 }

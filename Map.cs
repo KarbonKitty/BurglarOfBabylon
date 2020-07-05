@@ -6,9 +6,9 @@ using RogueSheep.Maps;
 
 namespace BurglarOfBabylon
 {
-    public class Map : GameMapBase<Actor>
+    public class Map : GameMapBase<MapObject, Actor>
     {
-        public Map(IMapTile[] tiles, IEnumerable<Actor> actors)
+        public Map(MapObject[] tiles, IEnumerable<Actor> actors)
             : base(tiles,
                 GameConsts.MapWidth,
                 actors,
@@ -17,5 +17,7 @@ namespace BurglarOfBabylon
                         Colors.InvisibleLightGrey,
                         Colors.InvisibleDarkGrey)))
         { }
+
+        public string GetDescription(Point2i position) => MapMemory[position].Description;
     }
 }
