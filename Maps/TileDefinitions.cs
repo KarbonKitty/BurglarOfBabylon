@@ -9,7 +9,7 @@ namespace BurglarOfBabylon.Maps
         public static readonly MapObject Floor = new MapObject("floor", "Floor covered in cheap plastic rug, the staple of office spaces everywhere.", new GameTile(CP437Glyph.SmallDot, Colors.PlasticBlue));
         public static readonly MapObject Wall = new MapObject("wall", "Simple, but sturdy, wall.", new GameTile(CP437Glyph.Hash, Colors.PlasticBlue), false, false);
         public static readonly MapObject Bed = new MapObject("bed", "Almost as comfortable as sleeping on a rock.", new GameTile(CP437Glyph.Equals, Colors.PlasticBlue));
-        public static readonly MapObject Door = new MapObject("door", "Closed door made out of a plastic slab.", new GameTile(CP437Glyph.Plus, Colors.PlasticBlue), false, false);
+        public static readonly MapObject Door = new MapObject("door", "Closed door made out of a plastic slab.", new GameTile(CP437Glyph.Plus, Colors.PlasticBlue), false, false, Interactions.OpenDoor);
         public static readonly MapObject OpenDoor = new MapObject("open door", "Open door made out of a plastic slab.", new GameTile(CP437Glyph.Slash, Colors.PlasticBlue), true, true);
         public static readonly MapObject Table = new MapObject("table", "Small table made out of a light-blue plastic, omnipresent in the LiviCubes.", new GameTile(CP437Glyph.SetSum, Colors.PlasticBlue), false, true);
         public static readonly MapObject Chair = new MapObject("chair", "This plastic chair is standard eqiupment in LiviCubes. It is always surprising to everybody who uses those how comfortable they are - in stark contrast to the rest of furniture here.", new GameTile(CP437Glyph.SingleHorizontalLineDoubleDown, Colors.PlasticBlue));
@@ -19,7 +19,7 @@ namespace BurglarOfBabylon.Maps
         public static readonly MapObject Wardrobe = new MapObject("closet", "Wardrobe in the LiviCube is made out of those same plastic slabs that make up walls. It is not surprising, given that it usually doubles as a wall, too.", new GameTile(CP437Glyph.TripleEquals, Colors.PlasticBlue), false, false);
         public static readonly MapObject Counter = new MapObject("counter", "Basic counter, mounted on wall hinges.", new GameTile(CP437Glyph.Negation, Colors.PlasticBlue), false, true);
         public static readonly MapObject Nightstand = new MapObject("nightstand", "Tiny nightstand, made out of the omnipresent light-blue plastic.", new GameTile(CP437Glyph.ReverseNegation, Colors.PlasticBlue), false, true);
-        public static readonly MapObject OpenAir = new MapObject("open air", "Open air. Don't fall down.", new GameTile(CP437Glyph.Empty));
+        public static readonly MapObject OpenAir = new MapObject("open air", "Open air. Don't fall down.", new GameTile(CP437Glyph.Empty), passable: false, transparent: true);
         public static readonly MapObject StairsUp = new MapObject("stairs up", "This staircase is leading up from here.", new GameTile(CP437Glyph.RightAngleBracket, RogueColor.White));
         public static readonly MapObject StairsDown = new MapObject("stairs down", "This staircase is leading down from here.", new GameTile(CP437Glyph.LeftAngleBracket, RogueColor.White));
         public static readonly MapObject ReinforcedDoor = new MapObject("secure door", "Closed doors made out of steel, with complex lock.", new GameTile(CP437Glyph.PlusMinus, RogueColor.SteelBlue), false, false);

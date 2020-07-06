@@ -7,6 +7,7 @@ namespace BurglarOfBabylon.Commands
         public static bool ProcessCommand(Command command, GameState state) => command switch
         {
             MoveCommand m => ProcessMoveCommand(m, state),
+            InteractionCommand i => ProcessInteractionCommand(i, state),
             NullCommand _ => false,
             _ => throw new InvalidOperationException("This type of command is not yet handled")
         };
@@ -18,7 +19,22 @@ namespace BurglarOfBabylon.Commands
             {
                 return moveCommand.Originator!.Move(moveCommand.Vector);
             }
+            else if (state.CurrentMap.IsInteractive(newPosition))
+            {
+                return ProcessInteractionCommand(new InteractionCommand(moveCommand.Originator, newPosition), state);
+            }
             return false;
+        }
+
+        private static bool ProcessInteractionCommand(InteractionCommand interactionCommand, GameState state)
+        {
+            var interactiveObject = state.CurrentMap.GetActualObject(interactionCommand.Target);
+            if (interactiveObject.Interaction is null)
+            {
+                return false;
+            }
+
+            return interactiveObject.Interaction(interactionCommand.Originator, interactionCommand.Target, state);
         }
     }
 }

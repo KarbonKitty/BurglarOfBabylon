@@ -19,5 +19,13 @@ namespace BurglarOfBabylon
         { }
 
         public string GetDescription(Point2i position) => MapMemory[position].Description;
+
+        public void ReplaceObject(Point2i position, MapObject newObject)
+        {
+            Tiles[PositionToIndex(position)] = newObject;
+            TransparencyGrid[position] = newObject.Transparent;
+        }
+
+        public bool IsInteractive(Point2i position) => Tiles[PositionToIndex(position)].Interaction != null;
     }
 }
