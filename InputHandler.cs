@@ -1,5 +1,6 @@
 using BurglarOfBabylon.AI;
 using BurglarOfBabylon.Commands;
+using RogueSheep;
 using SFML.Window;
 
 namespace BurglarOfBabylon
@@ -17,19 +18,19 @@ namespace BurglarOfBabylon
         {
             Command command = e.Code switch
             {
-                Keyboard.Key.Up => new MoveCommand(gameState.Player, (0, -1)),
-                Keyboard.Key.Down => new MoveCommand(gameState.Player, (0, 1)),
-                Keyboard.Key.Left => new MoveCommand(gameState.Player, (-1, 0)),
-                Keyboard.Key.Right => new MoveCommand(gameState.Player, (1, 0)),
+                Keyboard.Key.Up => new MoveCommand(gameState.Player, Direction.North),
+                Keyboard.Key.Down => new MoveCommand(gameState.Player, Direction.South),
+                Keyboard.Key.Left => new MoveCommand(gameState.Player, Direction.West),
+                Keyboard.Key.Right => new MoveCommand(gameState.Player, Direction.East),
 
-                Keyboard.Key.Numpad7 => new MoveCommand(gameState.Player, (-1, -1)),
-                Keyboard.Key.Numpad8 => new MoveCommand(gameState.Player, (0, -1)),
-                Keyboard.Key.Numpad9 => new MoveCommand(gameState.Player, (1, -1)),
-                Keyboard.Key.Numpad4 => new MoveCommand(gameState.Player, (-1, 0)),
-                Keyboard.Key.Numpad6 => new MoveCommand(gameState.Player, (1, 0)),
-                Keyboard.Key.Numpad1 => new MoveCommand(gameState.Player, (-1, 1)),
-                Keyboard.Key.Numpad2 => new MoveCommand(gameState.Player, (0, 1)),
-                Keyboard.Key.Numpad3 => new MoveCommand(gameState.Player, (1, 1)),
+                Keyboard.Key.Numpad7 => new MoveCommand(gameState.Player, Direction.NorthWest),
+                Keyboard.Key.Numpad8 => new MoveCommand(gameState.Player, Direction.North),
+                Keyboard.Key.Numpad9 => new MoveCommand(gameState.Player, Direction.NorthEast),
+                Keyboard.Key.Numpad4 => new MoveCommand(gameState.Player, Direction.West),
+                Keyboard.Key.Numpad6 => new MoveCommand(gameState.Player, Direction.East),
+                Keyboard.Key.Numpad1 => new MoveCommand(gameState.Player, Direction.SouthWest),
+                Keyboard.Key.Numpad2 => new MoveCommand(gameState.Player, Direction.South),
+                Keyboard.Key.Numpad3 => new MoveCommand(gameState.Player, Direction.SouthEast),
 
                 _ => new NullCommand()
             };

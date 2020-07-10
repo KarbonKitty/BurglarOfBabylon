@@ -27,5 +27,20 @@ namespace BurglarOfBabylon
         }
 
         public bool IsInteractive(Point2i position) => Tiles[PositionToIndex(position)].Interaction != null;
+
+        public GameTile[] GetMaskedViewportWithViewcones(Point2i size, Point2i position, GameGrid<bool> visibilityGrid, GameGrid<bool> guardVisibilityGrid)
+        {
+            var maskedViewport = base.GetMaskedViewport(size, position, visibilityGrid);
+
+            for (var i = 0; i < maskedViewport.Length; i++)
+            {
+                if (guardVisibilityGrid[i] && visibilityGrid[i])
+                {
+                    maskedViewport[i] = new GameTile(maskedViewport[i].Glyph, maskedViewport[i].Foreground, Colors.GuardVisibility);
+                }
+            }
+
+            return maskedViewport;
+        }
     }
 }

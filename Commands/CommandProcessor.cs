@@ -1,4 +1,5 @@
 using System;
+using RogueSheep;
 
 namespace BurglarOfBabylon.Commands
 {
@@ -14,10 +15,10 @@ namespace BurglarOfBabylon.Commands
 
         private static bool ProcessMoveCommand(MoveCommand moveCommand, GameState state)
         {
-            var newPosition = moveCommand.Originator!.Position + moveCommand.Vector;
+            var newPosition = moveCommand.Originator!.Position + moveCommand.Direction.Vector();
             if (state.CurrentMap.IsAvailableForMove(newPosition))
             {
-                return moveCommand.Originator!.Move(moveCommand.Vector);
+                return moveCommand.Originator!.Move(moveCommand.Direction);
             }
             else if (state.CurrentMap.IsInteractive(newPosition))
             {

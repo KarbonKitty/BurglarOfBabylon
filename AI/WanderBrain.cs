@@ -1,4 +1,5 @@
 using BurglarOfBabylon.Commands;
+using RogueSheep;
 
 namespace BurglarOfBabylon.AI
 {
@@ -6,7 +7,7 @@ namespace BurglarOfBabylon.AI
     {
         public override Command Act(Actor me, GameState gameState)
         {
-            var direction = (RNG.Next(3) - 1, RNG.Next(3) - 1);
+            var direction = (Direction)(RNG.Next(8) + 1);
             return new MoveCommand(me, direction);
         }
     }

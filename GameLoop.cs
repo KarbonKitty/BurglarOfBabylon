@@ -1,3 +1,6 @@
+using System.Collections.Generic;
+using System.Linq;
+using BurglarOfBabylon.AI;
 using BurglarOfBabylon.Commands;
 using RogueSheep;
 using RogueSheep.Display;
@@ -53,9 +56,19 @@ namespace BurglarOfBabylon
                 // as the size of the map will always return full map
                 // so we can pass anything we want as the center
                 var fovFactory = new BevelledWallShadowcasting(gameState.CurrentMap.TransparencyGrid);
-                var visibilityGrid = fovFactory.Compute(gameState.Player.Position, 8);
+                var visibilityGrid = fovFactory.Compute(gameState.Player.Position, 8, VisibilityAngle.HalfCircle, gameState.Player.Direction);
 
-                var viewport = gameState.CurrentMap.GetMaskedViewport(mainDisplay.Size, gameState.Player.Position, visibilityGrid);
+                var guardsVisibility = new GameGrid<bool>(gameState.CurrentMap.Size);
+
+                foreach (var actor in gameState.CurrentMap.Actors)
+                {
+                    if (!(actor.Brain is PlayerBrain))
+                    {
+                        guardsVisibility = fovFactory.Compute(actor.Position, 6, VisibilityAngle.QuarterCircle, actor.Direction);
+                    }
+                }
+
+                var viewport = gameState.CurrentMap.GetMaskedViewportWithViewcones(mainDisplay.Size, gameState.Player.Position, visibilityGrid, guardsVisibility);
 
                 mainDisplay.Draw(viewport, (0, 0));
 

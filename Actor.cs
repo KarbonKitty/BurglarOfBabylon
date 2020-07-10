@@ -11,19 +11,22 @@ namespace BurglarOfBabylon
         public string Name { get; }
         public Point2i Position { get; private set; }
         public GameTile Presentation { get; }
+        public Direction Direction { get; private set; }
         public ActorBrain Brain { get; }
 
-        public Actor(string name, Point2i position, GameTile presentation, ActorBrain brain)
+        public Actor(string name, Point2i position, GameTile presentation, Direction direction, ActorBrain brain)
         {
             Name = name;
             Position = position;
             Presentation = presentation;
+            Direction = direction;
             Brain = brain;
         }
 
-        public bool Move(Point2i vector)
+        public bool Move(Direction direction)
         {
-            Position += vector;
+            Position += direction.Vector();
+            Direction = direction;
             return true;
         }
 

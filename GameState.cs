@@ -16,13 +16,13 @@ namespace BurglarOfBabylon
 
         public GameState()
         {
-            Player = new Actor("Bob", (58, 58), new GameTile(CP437Glyph.AtSign, RogueColor.Lime), new PlayerBrain());
+            Player = new Actor("Bob", (58, 58), new GameTile(CP437Glyph.AtSign, RogueColor.Lime), Direction.North, new PlayerBrain());
 
             var actors = new List<Actor>
             {
                 Player,
-                new Actor("Random guard", (11, 10), new GameTile(CP437Glyph.CapitalG, RogueColor.DarkMagenta), new WanderBrain()),
-                new Actor("Another random guard", (52, 52), new GameTile(CP437Glyph.CapitalG, RogueColor.Magenta), new WanderBrain())
+                new Actor("Random guard", (11, 10), new GameTile(CP437Glyph.CapitalG, RogueColor.DarkMagenta), Direction.North, new WanderBrain()),
+                new Actor("Another random guard", (52, 52), new GameTile(CP437Glyph.CapitalG, RogueColor.Magenta), Direction.North, new WanderBrain())
             };
 
             Scheduler = new RoundRobinScheduler<Actor>();
