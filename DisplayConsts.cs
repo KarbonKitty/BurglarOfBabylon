@@ -24,7 +24,10 @@ namespace BurglarOfBabylon
         public readonly static Point2i BorderDisplaySize = (BorderDisplayWidthInTiles, MainDisplayHeightInTiles);
         public readonly static Point2i BorderDisplayOffset = (MainDisplayWidthInTiles * MainFontWidth, 0);
 
-        public readonly static Point2i MessageDisplaySize = (TextDisplayWidthInTiles, MainDisplayHeightInTiles);
-        public readonly static Point2i MessageDisplayOffset = ((MainDisplayWidthInTiles + BorderDisplayWidthInTiles) * MainFontWidth, 0);
+        public readonly static Point2i HudDisplaySize = (TextDisplayWidthInTiles, MainDisplayHeightInTiles / 2);
+        public readonly static Point2i HudDisplayOffset = ((MainDisplayWidthInTiles + BorderDisplayWidthInTiles) * MainFontWidth, 0);
+
+        public readonly static Point2i MessageDisplaySize = (TextDisplayWidthInTiles, MainDisplayHeightInTiles / 2);
+        public readonly static Point2i MessageDisplayOffset = ((MainDisplayWidthInTiles + BorderDisplayWidthInTiles) * MainFontWidth, MainDisplayHeightInTiles * MainFontHeight / 2);
     }
 }

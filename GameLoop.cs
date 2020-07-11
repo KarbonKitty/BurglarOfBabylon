@@ -1,4 +1,3 @@
-using System.Collections.Generic;
 using System.Linq;
 using BurglarOfBabylon.AI;
 using BurglarOfBabylon.Commands;
@@ -15,8 +14,11 @@ namespace BurglarOfBabylon
         private readonly RenderWindow window;
         private readonly GameDisplay mainDisplay;
         private readonly GameDisplay borderDisplay;
+        private readonly GameDisplay hudDisplay;
         private readonly GameDisplay messageDisplay;
         private readonly GameState gameState;
+
+        private bool CheckForAlertLevel = false;
 
         public GameLoop()
         {
@@ -25,6 +27,7 @@ namespace BurglarOfBabylon
             var textTilemapConfiguration = new TilemapConfiguration(DisplayConsts.MainFontHeight, DisplayConsts.TextFontWidth, DisplayConsts.FontRows, DisplayConsts.FontColumns);
             mainDisplay = new GameDisplay(DisplayConsts.MainDisplaySize, DisplayConsts.MainDisplayOffset, mapTilemapConfiguration);
             borderDisplay = new GameDisplay(DisplayConsts.BorderDisplaySize, DisplayConsts.BorderDisplayOffset, mapTilemapConfiguration);
+            hudDisplay = new GameDisplay(DisplayConsts.HudDisplaySize, DisplayConsts.HudDisplayOffset, textTilemapConfiguration);
             messageDisplay = new GameDisplay(DisplayConsts.MessageDisplaySize, DisplayConsts.MessageDisplayOffset, textTilemapConfiguration);
 
             for (var i = 0; i < DisplayConsts.MainDisplayHeightInTiles; i++)
@@ -52,6 +55,7 @@ namespace BurglarOfBabylon
                 ProcessTurn();
 
                 mainDisplay.Clear();
+
                 // GetViewport with the same request size
                 // as the size of the map will always return full map
                 // so we can pass anything we want as the center
@@ -68,6 +72,8 @@ namespace BurglarOfBabylon
                     }
                 }
 
+                AlertLevelChecks(guardsVisibility);
+
                 var viewport = gameState.CurrentMap.GetMaskedViewportWithViewcones(mainDisplay.Size, gameState.Player.Position, visibilityGrid, guardsVisibility);
 
                 mainDisplay.Draw(viewport, (0, 0));
@@ -77,11 +83,34 @@ namespace BurglarOfBabylon
 
                 borderDisplay.DrawToWindow(window);
 
+                DisplayHud();
+                hudDisplay.DrawToWindow(window);
+
                 // TODO: clear and redraw each iteration
                 messageDisplay.DrawToWindow(window);
 
                 window.Display();
             }
+        }
+
+        private void DisplayHud()
+        {
+            hudDisplay.Clear();
+            hudDisplay.Draw($"Alert level: {gameState.AlertLevel}/5", (1, 1));
+            if (gameState.AlertLevel >= 5)
+            {
+                hudDisplay.Draw("You have caused an alarm and failed!", (1, 2), RogueColor.Red);
+            }
+        }
+
+        private void AlertLevelChecks(GameGrid<bool> guardsVisibility)
+        {
+            if (CheckForAlertLevel && guardsVisibility[gameState.CurrentMap.Actors.Single(a => a.Role == ActorRole.Inflirtator).Position])
+            {
+                gameState.AlertLevel++;
+            }
+
+            CheckForAlertLevel = false;
         }
 
         private void ProcessTurn()
@@ -95,6 +124,10 @@ namespace BurglarOfBabylon
                 if (turnEnded)
                 {
                     gameState.Scheduler.Next();
+                    if (gameState.Scheduler.Current().Role == ActorRole.Inflirtator)
+                    {
+                        CheckForAlertLevel = true;
+                    }
                 }
                 else
                 {
@@ -108,16 +141,16 @@ namespace BurglarOfBabylon
             if (e.X > mainDisplay.Offset.X && e.X < (mainDisplay.Offset.X + mainDisplay.SizePx.X)
                 &&
                 e.Y > mainDisplay.Offset.Y && e.Y < (mainDisplay.Offset.Y + mainDisplay.SizePx.Y))
-                {
-                    messageDisplay.Clear();
+            {
+                messageDisplay.Clear();
 
-                    Point2i pixelPositionInside = (e.X - mainDisplay.Offset.X, e.Y - mainDisplay.Offset.Y);
-                    Point2i gridPositionInside = (pixelPositionInside.X / DisplayConsts.MainFontWidth, pixelPositionInside.Y / DisplayConsts.MainFontHeight);
+                Point2i pixelPositionInside = (e.X - mainDisplay.Offset.X, e.Y - mainDisplay.Offset.Y);
+                Point2i gridPositionInside = (pixelPositionInside.X / DisplayConsts.MainFontWidth, pixelPositionInside.Y / DisplayConsts.MainFontHeight);
 
-                    var description = gameState.CurrentMap.GetDescription(gridPositionInside);
+                var description = gameState.CurrentMap.GetDescription(gridPositionInside);
 
-                    messageDisplay.Draw($"{description}", (1, 2));
-                }
+                messageDisplay.Draw($"{description}", (1, 1));
+            }
         }
     }
 }
