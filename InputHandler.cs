@@ -32,6 +32,9 @@ namespace BurglarOfBabylon
                 Keyboard.Key.Numpad2 => new MoveCommand(gameState.Player, Direction.South),
                 Keyboard.Key.Numpad3 => new MoveCommand(gameState.Player, Direction.SouthEast),
 
+                Keyboard.Key.Numpad5 => new WaitCommand(gameState.Player),
+                Keyboard.Key.Space => new WaitCommand(gameState.Player),
+
                 _ => new NullCommand()
             };
 

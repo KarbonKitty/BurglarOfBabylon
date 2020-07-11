@@ -9,6 +9,7 @@ namespace BurglarOfBabylon.Commands
         {
             MoveCommand m => ProcessMoveCommand(m, state),
             InteractionCommand i => ProcessInteractionCommand(i, state),
+            WaitCommand _ => true,
             NullCommand _ => false,
             _ => throw new InvalidOperationException("This type of command is not yet handled")
         };
