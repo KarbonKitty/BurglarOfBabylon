@@ -4,11 +4,11 @@ namespace BurglarOfBabylon.Commands
 {
     public class InteractionCommand : Command
     {
-        public Point2i Target { get; }
+        public Direction TargetDirection { get; }
 
-        public InteractionCommand(Actor originator, Point2i target) : base(originator)
+        public InteractionCommand(Actor originator, Direction targetDirection) : base(originator)
         {
-            Target = target;
+            TargetDirection = targetDirection;
         }
     }
 }

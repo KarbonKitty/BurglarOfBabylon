@@ -32,6 +32,12 @@ namespace BurglarOfBabylon
             return true;
         }
 
+        public bool Rotate(Direction direction)
+        {
+            Direction = direction;
+            return true;
+        }
+
         public Command Act(GameState gameState) => Brain.Act(this, gameState);
     }
 }

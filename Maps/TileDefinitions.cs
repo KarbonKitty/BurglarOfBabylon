@@ -10,7 +10,7 @@ namespace BurglarOfBabylon.Maps
         public static readonly MapObject Wall = new MapObject("wall", "Simple, but sturdy, wall.", new GameTile(CP437Glyph.Hash, Colors.PlasticBlue), false, false);
         public static readonly MapObject Bed = new MapObject("bed", "Almost as comfortable as sleeping on a rock.", new GameTile(CP437Glyph.Equals, Colors.PlasticBlue));
         public static readonly MapObject Door = new MapObject("door", "Closed door made out of a plastic slab.", new GameTile(CP437Glyph.Plus, Colors.PlasticBlue), false, false, Interactions.OpenDoor);
-        public static readonly MapObject OpenDoor = new MapObject("open door", "Open door made out of a plastic slab.", new GameTile(CP437Glyph.Slash, Colors.PlasticBlue), true, true);
+        public static readonly MapObject OpenDoor = new MapObject("open door", "Open door made out of a plastic slab.", new GameTile(CP437Glyph.Slash, Colors.PlasticBlue), true, true, Interactions.CloseDoor);
         public static readonly MapObject Table = new MapObject("table", "Small table made out of a light-blue plastic, omnipresent in the LiviCubes.", new GameTile(CP437Glyph.SetSum, Colors.PlasticBlue), false, true);
         public static readonly MapObject Chair = new MapObject("chair", "This plastic chair is standard eqiupment in LiviCubes. It is always surprising to everybody who uses those how comfortable they are - in stark contrast to the rest of furniture here.", new GameTile(CP437Glyph.SingleHorizontalLineDoubleDown, Colors.PlasticBlue));
         public static readonly MapObject Sink = new MapObject("sink", "You can wash your hands in this sink.", new GameTile(CP437Glyph.SuperscriptO, Colors.PlasticBlue));

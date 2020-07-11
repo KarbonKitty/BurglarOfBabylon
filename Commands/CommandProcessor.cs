@@ -23,20 +23,29 @@ namespace BurglarOfBabylon.Commands
             }
             else if (state.CurrentMap.IsInteractive(newPosition))
             {
-                return ProcessInteractionCommand(new InteractionCommand(moveCommand.Originator, newPosition), state);
+                return ProcessInteractionCommand(new InteractionCommand(moveCommand.Originator, moveCommand.Direction), state);
             }
             return false;
         }
 
         private static bool ProcessInteractionCommand(InteractionCommand interactionCommand, GameState state)
         {
-            var interactiveObject = state.CurrentMap.GetActualObject(interactionCommand.Target);
+            if (interactionCommand.Originator is null)
+            {
+                return false;
+            }
+
+            var targetPosition = interactionCommand.Originator.Position.Transform(interactionCommand.TargetDirection);
+
+            var interactiveObject = state.CurrentMap.GetActualObject(targetPosition);
             if (interactiveObject.Interaction is null)
             {
                 return false;
             }
 
-            return interactiveObject.Interaction(interactionCommand.Originator, interactionCommand.Target, state);
+            interactionCommand.Originator?.Rotate(interactionCommand.TargetDirection);
+
+            return interactiveObject.Interaction(interactionCommand.Originator, targetPosition, state);
         }
     }
 }
