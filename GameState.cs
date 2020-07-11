@@ -18,6 +18,7 @@ namespace BurglarOfBabylon
         public GameState()
         {
             Player = new Actor("Bob", (58, 58), new GameTile(CP437Glyph.AtSign, RogueColor.Lime), Direction.North, new PlayerBrain(), ActorRole.Inflirtator);
+            Player.Inventory.Add(ItemDefinitions.SignalJammer);
 
             var actors = new List<Actor>
             {

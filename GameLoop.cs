@@ -101,6 +101,14 @@ namespace BurglarOfBabylon
             {
                 hudDisplay.Draw("You have caused an alarm and failed!", (1, 2), RogueColor.Red);
             }
+
+            for (var i = 0; i < 6; i++)
+            {
+                if (gameState.Player.Inventory.Count > i)
+                {
+                    hudDisplay.Draw($"{i+1} - {gameState.Player.Inventory[i].Name}", (1, 4 + i));
+                }
+            }
         }
 
         private void AlertLevelChecks(GameGrid<bool> guardsVisibility)

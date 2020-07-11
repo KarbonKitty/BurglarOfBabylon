@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using BurglarOfBabylon.AI;
 using BurglarOfBabylon.Commands;
 using RogueSheep;
@@ -14,6 +15,7 @@ namespace BurglarOfBabylon
         public Direction Direction { get; private set; }
         public ActorBrain Brain { get; }
         public ActorRole Role { get; }
+        public List<Item> Inventory { get; }
 
         public Actor(string name, Point2i position, GameTile presentation, Direction direction, ActorBrain brain, ActorRole role)
         {
@@ -23,6 +25,7 @@ namespace BurglarOfBabylon
             Direction = direction;
             Brain = brain;
             Role = role;
+            Inventory = new List<Item>();
         }
 
         public bool Move(Direction direction)
