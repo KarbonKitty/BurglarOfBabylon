@@ -33,54 +33,65 @@ namespace BurglarOfBabylon
             }
         }
 
-        private Command HandleGeneralCase(KeyEventArgs e) => e.Code switch
+        private Command HandleGeneralCase(KeyEventArgs e)
         {
-            Keyboard.Key.Up => new MoveCommand(gameState.Player, Direction.North),
-            Keyboard.Key.Down => new MoveCommand(gameState.Player, Direction.South),
-            Keyboard.Key.Left => new MoveCommand(gameState.Player, Direction.West),
-            Keyboard.Key.Right => new MoveCommand(gameState.Player, Direction.East),
+            if (KeyToDirection(e) != Direction.None)
+            {
+                return new MoveCommand(gameState.Player, KeyToDirection(e));
+            }
 
-            Keyboard.Key.Numpad7 => new MoveCommand(gameState.Player, Direction.NorthWest),
-            Keyboard.Key.Numpad8 => new MoveCommand(gameState.Player, Direction.North),
-            Keyboard.Key.Numpad9 => new MoveCommand(gameState.Player, Direction.NorthEast),
-            Keyboard.Key.Numpad4 => new MoveCommand(gameState.Player, Direction.West),
-            Keyboard.Key.Numpad6 => new MoveCommand(gameState.Player, Direction.East),
-            Keyboard.Key.Numpad1 => new MoveCommand(gameState.Player, Direction.SouthWest),
-            Keyboard.Key.Numpad2 => new MoveCommand(gameState.Player, Direction.South),
-            Keyboard.Key.Numpad3 => new MoveCommand(gameState.Player, Direction.SouthEast),
-
-            Keyboard.Key.Numpad5 => new WaitCommand(gameState.Player),
-            Keyboard.Key.Space => new WaitCommand(gameState.Player),
-
-            Keyboard.Key.U => SwitchToState(InputState.UseInDirection),
-
-            Keyboard.Key.I => SwitchToState(InputState.UseFromInventory),
-
-            _ => new NullCommand()
-        };
-
-        private Command HandleUseInDirection(KeyEventArgs e)
-        {
-            State = InputState.General;
             return e.Code switch
             {
-                Keyboard.Key.Up => new InteractionCommand(gameState.Player, Direction.North),
-                Keyboard.Key.Down => new InteractionCommand(gameState.Player, Direction.South),
-                Keyboard.Key.Left => new InteractionCommand(gameState.Player, Direction.West),
-                Keyboard.Key.Right => new InteractionCommand(gameState.Player, Direction.East),
+                Keyboard.Key.Numpad5 => new WaitCommand(gameState.Player),
+                Keyboard.Key.Space => new WaitCommand(gameState.Player),
 
-                Keyboard.Key.Numpad7 => new InteractionCommand(gameState.Player, Direction.NorthWest),
-                Keyboard.Key.Numpad8 => new InteractionCommand(gameState.Player, Direction.North),
-                Keyboard.Key.Numpad9 => new InteractionCommand(gameState.Player, Direction.NorthEast),
-                Keyboard.Key.Numpad4 => new InteractionCommand(gameState.Player, Direction.West),
-                Keyboard.Key.Numpad6 => new InteractionCommand(gameState.Player, Direction.East),
-                Keyboard.Key.Numpad1 => new InteractionCommand(gameState.Player, Direction.SouthWest),
-                Keyboard.Key.Numpad2 => new InteractionCommand(gameState.Player, Direction.South),
-                Keyboard.Key.Numpad3 => new InteractionCommand(gameState.Player, Direction.SouthEast),
+                Keyboard.Key.U => SwitchToState(InputState.UseInDirection),
+
+                Keyboard.Key.I => SwitchToState(InputState.UseFromInventory),
 
                 _ => new NullCommand()
             };
         }
+
+        private Command HandleUseInDirection(KeyEventArgs e)
+        {
+            State = InputState.General;
+            if (KeyToDirection(e) != Direction.None)
+            {
+                return new InteractionCommand(gameState.Player, KeyToDirection(e));
+            }
+            return new NullCommand();
+        }
+
+        private Direction KeyToDirection(KeyEventArgs key) =>
+        key.Code switch
+        {
+            Keyboard.Key.Up => Direction.North,
+            Keyboard.Key.Down => Direction.South,
+            Keyboard.Key.Left => Direction.West,
+            Keyboard.Key.Right => Direction.East,
+
+            Keyboard.Key.W => Direction.North,
+            Keyboard.Key.S => Direction.South,
+            Keyboard.Key.A => Direction.West,
+            Keyboard.Key.D => Direction.East,
+
+            Keyboard.Key.Numpad7 => Direction.NorthWest,
+            Keyboard.Key.Numpad8 => Direction.North,
+            Keyboard.Key.Numpad9 => Direction.NorthEast,
+            Keyboard.Key.Numpad4 => Direction.West,
+            Keyboard.Key.Numpad6 => Direction.East,
+            Keyboard.Key.Numpad1 => Direction.SouthWest,
+            Keyboard.Key.Numpad2 => Direction.South,
+            Keyboard.Key.Numpad3 => Direction.SouthEast,
+
+            Keyboard.Key.K => Direction.North,
+            Keyboard.Key.J => Direction.South,
+            Keyboard.Key.H => Direction.West,
+            Keyboard.Key.L => Direction.East,
+
+            _ => Direction.None
+        };
 
         private Command HandleUseFromInventory(KeyEventArgs e)
         {
@@ -100,7 +111,7 @@ namespace BurglarOfBabylon
 
         private Command SwitchToState(InputState state)
         {
-            this.State = state;
+            State = state;
             return new NullCommand();
         }
     }
