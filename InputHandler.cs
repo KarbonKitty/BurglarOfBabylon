@@ -9,7 +9,7 @@ namespace BurglarOfBabylon
     public class InputHandler
     {
         private readonly GameState gameState;
-        private InputState state = InputState.General;
+        public InputState State { get; private set; }
 
         public InputHandler(GameState gameState)
         {
@@ -18,10 +18,11 @@ namespace BurglarOfBabylon
 
         public void Window_KeyPressed(object? sender, KeyEventArgs e)
         {
-            Command command = state switch
+            Command command = State switch
             {
                 InputState.General => HandleGeneralCase(e),
                 InputState.UseInDirection => HandleUseInDirection(e),
+                InputState.UseFromInventory => HandleUseFromInventory(e),
 
                 _ => throw new InvalidOperationException("Only named enum values should be used")
             };
@@ -53,42 +54,61 @@ namespace BurglarOfBabylon
 
             Keyboard.Key.U => SwitchToState(InputState.UseInDirection),
 
+            Keyboard.Key.I => SwitchToState(InputState.UseFromInventory),
+
             _ => new NullCommand()
         };
 
         private Command HandleUseInDirection(KeyEventArgs e)
         {
-            state = InputState.General;
+            State = InputState.General;
             return e.Code switch
             {
-            Keyboard.Key.Up => new InteractionCommand(gameState.Player, Direction.North),
-            Keyboard.Key.Down => new InteractionCommand(gameState.Player, Direction.South),
-            Keyboard.Key.Left => new InteractionCommand(gameState.Player, Direction.West),
-            Keyboard.Key.Right => new InteractionCommand(gameState.Player, Direction.East),
+                Keyboard.Key.Up => new InteractionCommand(gameState.Player, Direction.North),
+                Keyboard.Key.Down => new InteractionCommand(gameState.Player, Direction.South),
+                Keyboard.Key.Left => new InteractionCommand(gameState.Player, Direction.West),
+                Keyboard.Key.Right => new InteractionCommand(gameState.Player, Direction.East),
 
-            Keyboard.Key.Numpad7 => new InteractionCommand(gameState.Player, Direction.NorthWest),
-            Keyboard.Key.Numpad8 => new InteractionCommand(gameState.Player, Direction.North),
-            Keyboard.Key.Numpad9 => new InteractionCommand(gameState.Player, Direction.NorthEast),
-            Keyboard.Key.Numpad4 => new InteractionCommand(gameState.Player, Direction.West),
-            Keyboard.Key.Numpad6 => new InteractionCommand(gameState.Player, Direction.East),
-            Keyboard.Key.Numpad1 => new InteractionCommand(gameState.Player, Direction.SouthWest),
-            Keyboard.Key.Numpad2 => new InteractionCommand(gameState.Player, Direction.South),
-            Keyboard.Key.Numpad3 => new InteractionCommand(gameState.Player, Direction.SouthEast),
+                Keyboard.Key.Numpad7 => new InteractionCommand(gameState.Player, Direction.NorthWest),
+                Keyboard.Key.Numpad8 => new InteractionCommand(gameState.Player, Direction.North),
+                Keyboard.Key.Numpad9 => new InteractionCommand(gameState.Player, Direction.NorthEast),
+                Keyboard.Key.Numpad4 => new InteractionCommand(gameState.Player, Direction.West),
+                Keyboard.Key.Numpad6 => new InteractionCommand(gameState.Player, Direction.East),
+                Keyboard.Key.Numpad1 => new InteractionCommand(gameState.Player, Direction.SouthWest),
+                Keyboard.Key.Numpad2 => new InteractionCommand(gameState.Player, Direction.South),
+                Keyboard.Key.Numpad3 => new InteractionCommand(gameState.Player, Direction.SouthEast),
 
                 _ => new NullCommand()
             };
         }
 
-        private Command SwitchToState(InputState state)
+        private Command HandleUseFromInventory(KeyEventArgs e)
         {
-            this.state = state;
+            State = InputState.General;
+
+            if ((int)e.Code >= 27 && (int)e.Code <= 36)
+            {
+                var inventoryPosition = (int)e.Code - 27;
+                if (gameState.Player.Inventory.Count > inventoryPosition)
+                {
+                    return new UseCommand(gameState.Player, gameState.Player.Inventory[inventoryPosition]);
+                }
+            }
+
             return new NullCommand();
         }
 
-        private enum InputState
+        private Command SwitchToState(InputState state)
         {
-            General,
-            UseInDirection
+            this.State = state;
+            return new NullCommand();
         }
+    }
+
+    public enum InputState
+    {
+        General,
+        UseInDirection,
+        UseFromInventory
     }
 }

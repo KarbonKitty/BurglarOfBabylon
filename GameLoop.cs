@@ -17,6 +17,7 @@ namespace BurglarOfBabylon
         private readonly GameDisplay hudDisplay;
         private readonly GameDisplay messageDisplay;
         private readonly GameState gameState;
+        private readonly InputHandler inputHandler;
 
         private bool CheckForAlertLevel = false;
 
@@ -38,7 +39,7 @@ namespace BurglarOfBabylon
             messageDisplay.Draw($"Hello to {DisplayConsts.GameTitle}", (1, 1));
 
             gameState = new GameState();
-            var inputHandler = new InputHandler(gameState);
+            inputHandler = new InputHandler(gameState);
 
             window.KeyPressed += inputHandler.Window_KeyPressed;
             window.MouseButtonPressed += Window_MouseButtonPressed;
@@ -102,11 +103,12 @@ namespace BurglarOfBabylon
                 hudDisplay.Draw("You have caused an alarm and failed!", (1, 2), RogueColor.Red);
             }
 
+            hudDisplay.Draw($"Inventory: {(inputHandler.State == InputState.UseFromInventory ? "(press number to use an item or Esc to cancel)" : "(press 'i' to enter inventory use mode)")}", (1, 4));
             for (var i = 0; i < 6; i++)
             {
                 if (gameState.Player.Inventory.Count > i)
                 {
-                    hudDisplay.Draw($"{i+1} - {gameState.Player.Inventory[i].Name}", (1, 4 + i));
+                    hudDisplay.Draw($"{i+1} - {gameState.Player.Inventory[i].Name}", (1, 5 + i));
                 }
             }
         }
