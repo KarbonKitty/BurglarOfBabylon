@@ -87,7 +87,7 @@ namespace BurglarOfBabylon
                 DisplayHud();
                 hudDisplay.DrawToWindow(window);
 
-                // TODO: clear and redraw each iteration
+                DisplayMessages();
                 messageDisplay.DrawToWindow(window);
 
                 window.Display();
@@ -110,6 +110,26 @@ namespace BurglarOfBabylon
                 {
                     hudDisplay.Draw($"{i+1} - {gameState.Player.Inventory[i].Name}", (1, 5 + i));
                 }
+            }
+        }
+
+        private void DisplayMessages()
+        {
+            messageDisplay.Clear();
+            var messages = gameState.Messages.GetMessages();
+            var index = 0;
+            var maxMsgLength = DisplayConsts.MessageDisplaySize.X - 2;
+            foreach (var msg in messages)
+            {
+                if (msg.Length > maxMsgLength)
+                {
+                    messageDisplay.Draw(msg.Substring(0, maxMsgLength), (1, index + 1));
+                }
+                else
+                {
+                    messageDisplay.Draw(msg, (1, index + 1));
+                }
+                index++;
             }
         }
 
@@ -152,14 +172,12 @@ namespace BurglarOfBabylon
                 &&
                 e.Y > mainDisplay.Offset.Y && e.Y < (mainDisplay.Offset.Y + mainDisplay.SizePx.Y))
             {
-                messageDisplay.Clear();
-
                 Point2i pixelPositionInside = (e.X - mainDisplay.Offset.X, e.Y - mainDisplay.Offset.Y);
                 Point2i gridPositionInside = (pixelPositionInside.X / DisplayConsts.MainFontWidth, pixelPositionInside.Y / DisplayConsts.MainFontHeight);
 
                 var description = gameState.CurrentMap.GetDescription(gridPositionInside);
 
-                messageDisplay.Draw($"{description}", (1, 1));
+                gameState.Messages.Push(description);
             }
         }
     }

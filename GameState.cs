@@ -14,9 +14,11 @@ namespace BurglarOfBabylon
         public Actor Player { get; set; }
         public IScheduler<Actor> Scheduler { get; }
         public int AlertLevel { get; set; }
+        public MessageBuffer Messages { get; }
 
         public GameState()
         {
+            Messages = new MessageBuffer(DisplayConsts.MessageDisplaySize.Y - 2);
             Player = new Actor("Bob", (58, 58), new GameTile(CP437Glyph.AtSign, RogueColor.Lime), Direction.North, new PlayerBrain(), ActorRole.Inflirtator);
             Player.Inventory.Add(ItemDefinitions.SignalJammer);
 
