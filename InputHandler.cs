@@ -44,6 +44,7 @@ namespace BurglarOfBabylon
             {
                 Keyboard.Key.Numpad5 => new WaitCommand(gameState.Player),
                 Keyboard.Key.Space => new WaitCommand(gameState.Player),
+                Keyboard.Key.Comma => new PickUpCommand(gameState.Player),
 
                 Keyboard.Key.U => SwitchToState(InputState.UseInDirection),
 

@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Linq;
 using BurglarOfBabylon.Maps;
 using RogueSheep;
 using RogueSheep.Display;
@@ -8,7 +9,9 @@ namespace BurglarOfBabylon
 {
     public class Map : GameMapBase<MapObject, Actor>
     {
-        public Map(MapObject[] tiles, IEnumerable<Actor> actors)
+        public Dictionary<Point2i, Item> Items { get; }
+
+        public Map(MapObject[] tiles, IEnumerable<Actor> actors, IDictionary<Point2i, Item> items)
             : base(tiles,
                 GameConsts.MapWidth,
                 actors,
@@ -16,7 +19,9 @@ namespace BurglarOfBabylon
                     new GameTile(CP437Glyph.AlmostEquals,
                         Colors.InvisibleLightGrey,
                         Colors.InvisibleDarkGrey)))
-        { }
+        {
+            Items = new Dictionary<Point2i, Item>(items);
+        }
 
         public string GetDescription(Point2i position) => MapMemory[position].Description;
 
@@ -30,7 +35,15 @@ namespace BurglarOfBabylon
 
         public GameTile[] GetMaskedViewportWithViewcones(Point2i size, Point2i position, GameGrid<bool> visibilityGrid, GameGrid<bool> guardVisibilityGrid)
         {
-            var maskedViewport = base.GetMaskedViewport(size, position, visibilityGrid);
+            var maskedViewport = GetMaskedViewport(size, position, visibilityGrid);
+
+            foreach (var kvp in Items)
+            {
+                if (visibilityGrid[kvp.Key] && !Actors.Any(a => a.Position == kvp.Key))
+                {
+                    maskedViewport[PositionToIndex(kvp.Key)] = kvp.Value.Presentation;
+                }
+            }
 
             for (var i = 0; i < maskedViewport.Length; i++)
             {

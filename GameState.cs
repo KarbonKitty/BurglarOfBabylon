@@ -38,7 +38,11 @@ namespace BurglarOfBabylon
 
             var mapObjects = Office.Tiles.Select(t => TileDefinitions.MapObjectMapping[t]).ToArray();
 
-            CurrentMap = new Map(mapObjects, actors);
+            var onMapItems = new Dictionary<Point2i, Item> {
+                { (57, 57), ItemDefinitions.SignalJammer }
+            };
+
+            CurrentMap = new Map(mapObjects, actors, onMapItems);
         }
     }
 }

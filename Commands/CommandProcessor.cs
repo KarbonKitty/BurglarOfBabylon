@@ -10,10 +10,27 @@ namespace BurglarOfBabylon.Commands
             MoveCommand m => ProcessMoveCommand(m, state),
             InteractionCommand i => ProcessInteractionCommand(i, state),
             UseCommand u => ProcessUseCommand(u, state),
+            PickUpCommand p => ProcessPickUpCommand(p, state),
             WaitCommand _ => true,
             NullCommand _ => false,
             _ => throw new InvalidOperationException("This type of command is not yet handled")
         };
+
+        private static bool ProcessPickUpCommand(PickUpCommand pickUpCommand, GameState state)
+        {
+            if (pickUpCommand.Originator is null)
+            {
+                return false;
+            }
+            var actorPosition = pickUpCommand.Originator.Position;
+            if (state.CurrentMap.Items.TryGetValue(actorPosition, out var item))
+            {
+                pickUpCommand.Originator.Inventory.Add(item);
+                state.CurrentMap.Items.Remove(actorPosition);
+                return true;
+            }
+            return false;
+        }
 
         private static bool ProcessMoveCommand(MoveCommand moveCommand, GameState state)
         {
