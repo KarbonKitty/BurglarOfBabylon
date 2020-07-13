@@ -157,6 +157,7 @@ namespace BurglarOfBabylon
                     if (gameState.Scheduler.Current().Role == ActorRole.Inflirtator)
                     {
                         CheckForAlertLevel = true;
+                        gameState.CurrentTime = gameState.CurrentTime.AddSeconds(1);
                     }
                 }
                 else

@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using BurglarOfBabylon.AI;
@@ -15,12 +16,15 @@ namespace BurglarOfBabylon
         public IScheduler<Actor> Scheduler { get; }
         public int AlertLevel { get; set; }
         public MessageBuffer Messages { get; }
+        public DateTime CurrentTime { get; set; }
 
         public GameState()
         {
+            var dto = DateTimeOffset.FromUnixTimeSeconds(int.MaxValue);
+            CurrentTime = dto.DateTime;
             Messages = new MessageBuffer(DisplayConsts.MessageDisplaySize.Y - 2);
             Player = new Actor("Bob", (58, 58), new GameTile(CP437Glyph.AtSign, RogueColor.Lime), Direction.North, new PlayerBrain(), ActorRole.Inflirtator);
-            Player.Inventory.Add(ItemDefinitions.SignalJammer);
+            Player.Inventory.Add(ItemDefinitions.Watch);
 
             var actors = new List<Actor>
             {
