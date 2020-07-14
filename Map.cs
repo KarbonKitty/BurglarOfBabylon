@@ -55,5 +55,15 @@ namespace BurglarOfBabylon
 
             return maskedViewport;
         }
+
+        public GameGrid<bool> GetPassabilityGrid()
+        {
+            var grid = new GameGrid<bool>(Size);
+            for (var i = 0; i < Tiles.Length; i++)
+            {
+                grid[i] = IsAvailableForMove(IndexToPosition(i));
+            }
+            return grid;
+        }
     }
 }

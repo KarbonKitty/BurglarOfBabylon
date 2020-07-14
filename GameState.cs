@@ -29,8 +29,10 @@ namespace BurglarOfBabylon
             var actors = new List<Actor>
             {
                 Player,
-                new Actor("Random guard", (11, 10), new GameTile(CP437Glyph.CapitalG, RogueColor.DarkMagenta), Direction.North, new WanderBrain(), ActorRole.Guard),
-                new Actor("Another random guard", (52, 52), new GameTile(CP437Glyph.CapitalG, RogueColor.Magenta), Direction.North, new WanderBrain(), ActorRole.Guard)
+                new Actor("Random guard", (5, 23), new GameTile(CP437Glyph.CapitalG, RogueColor.DarkMagenta), Direction.North, new PatrolBrain((5, 23), (5, 38)), ActorRole.Guard),
+                new Actor("Another random guard", (1, 42), new GameTile(CP437Glyph.CapitalG, RogueColor.Magenta), Direction.North, new PatrolBrain((1, 42), (19, 58)), ActorRole.Guard),
+                new Actor("Third random guard", (31, 50), new GameTile(CP437Glyph.CapitalG, RogueColor.Magenta), Direction.South, new PatrolBrain((31, 50), (51, 30)), ActorRole.Guard),
+                new Actor("Fourth random guard", (22, 10), new GameTile(CP437Glyph.CapitalG, RogueColor.Magenta), Direction.South, new PatrolBrain((22, 10), (51, 30)), ActorRole.Guard)
             };
 
             Scheduler = new RoundRobinScheduler<Actor>();
@@ -39,7 +41,7 @@ namespace BurglarOfBabylon
             var mapObjects = Office.Tiles.Select(t => TileDefinitions.MapObjectMapping[t]).ToArray();
 
             var onMapItems = new Dictionary<Point2i, Item> {
-                { (57, 57), ItemDefinitions.SignalJammer }
+                [(40, 40)] = ItemDefinitions.SignalJammer
             };
 
             CurrentMap = new Map(mapObjects, actors, onMapItems);
