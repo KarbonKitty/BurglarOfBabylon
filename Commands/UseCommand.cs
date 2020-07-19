@@ -1,3 +1,5 @@
+using BurglarOfBabylon.Items;
+
 namespace BurglarOfBabylon.Commands
 {
     public sealed class UseCommand : Command

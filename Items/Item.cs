@@ -1,7 +1,7 @@
 using System;
 using RogueSheep.Display;
 
-namespace BurglarOfBabylon
+namespace BurglarOfBabylon.Items
 {
     public class Item : IPresentable
     {

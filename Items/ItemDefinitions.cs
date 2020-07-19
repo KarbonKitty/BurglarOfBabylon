@@ -1,7 +1,7 @@
 using RogueSheep;
 using RogueSheep.Display;
 
-namespace BurglarOfBabylon
+namespace BurglarOfBabylon.Items
 {
     public static class ItemDefinitions
     {

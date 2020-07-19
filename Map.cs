@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using System.Linq;
+using BurglarOfBabylon.Items;
 using BurglarOfBabylon.Maps;
 using RogueSheep;
 using RogueSheep.Display;

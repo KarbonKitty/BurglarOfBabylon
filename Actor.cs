@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using BurglarOfBabylon.AI;
 using BurglarOfBabylon.Commands;
+using BurglarOfBabylon.Items;
 using RogueSheep;
 using RogueSheep.Display;
 using RogueSheep.Maps;
