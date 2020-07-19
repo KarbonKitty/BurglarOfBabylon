@@ -62,7 +62,8 @@ namespace BurglarOfBabylon
             var grid = new GameGrid<bool>(Size);
             for (var i = 0; i < Tiles.Length; i++)
             {
-                grid[i] = IsAvailableForMove(IndexToPosition(i));
+                // TODO: is there a better way?
+                grid[i] = IsAvailableForMove(IndexToPosition(i)) || GetActualObject(IndexToPosition(i)) == TileDefinitions.Door;
             }
             return grid;
         }
