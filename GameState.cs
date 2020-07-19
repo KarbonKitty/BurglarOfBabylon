@@ -25,7 +25,7 @@ namespace BurglarOfBabylon
             CurrentTime = dto.DateTime;
             Messages = new MessageBuffer(DisplayConsts.MessageDisplaySize.Y - 2);
             Player = new Actor("Bob", (58, 58), new GameTile(CP437Glyph.AtSign, RogueColor.Lime), Direction.North, new PlayerBrain(), ActorRole.Inflirtator);
-            Player.Inventory.Add(ItemDefinitions.Watch);
+            Player.Inventory.Add(new Item(ItemDefinitions.Watch));
 
             var actors = new List<Actor>
             {
@@ -42,7 +42,10 @@ namespace BurglarOfBabylon
             var mapObjects = Office.Tiles.Select(t => TileDefinitions.MapObjectMapping[t]).ToArray();
 
             var onMapItems = new Dictionary<Point2i, Item> {
-                [(40, 40)] = ItemDefinitions.SignalJammer
+                [(40, 40)] = new LimitedUseItem((LimitedUseItem)ItemDefinitions.SignalJammer),
+                [(57, 19)] = new LimitedUseItem((LimitedUseItem)ItemDefinitions.SignalJammer),
+                [(58, 2)] = new LimitedUseItem((LimitedUseItem)ItemDefinitions.SignalJammer),
+                [(19, 58)] = new LimitedUseItem((LimitedUseItem)ItemDefinitions.SignalJammer),
             };
 
             CurrentMap = new Map(mapObjects, actors, onMapItems);

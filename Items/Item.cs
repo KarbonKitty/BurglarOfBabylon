@@ -16,6 +16,13 @@ namespace BurglarOfBabylon.Items
             Usage = use;
         }
 
+        public Item(Item itemToClone)
+        {
+            Name = itemToClone.Name;
+            Presentation = new GameTile(itemToClone.Presentation);
+            Usage = itemToClone.Usage;
+        }
+
         public virtual void Use(Actor user, GameState state)
         {
             if (CanBeUsed())

@@ -15,6 +15,12 @@ namespace BurglarOfBabylon.Items
             ChargesLeft = chargesLeft ?? maxCharges;
         }
 
+        public LimitedUseItem(LimitedUseItem itemToClone) : base(itemToClone)
+        {
+            MaxCharges = itemToClone.MaxCharges;
+            ChargesLeft = itemToClone.ChargesLeft;
+        }
+
         public override void Use(Actor user, GameState state)
         {
             if (CanBeUsed())
