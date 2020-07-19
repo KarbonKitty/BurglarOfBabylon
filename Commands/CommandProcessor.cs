@@ -11,6 +11,7 @@ namespace BurglarOfBabylon.Commands
             InteractionCommand i => ProcessInteractionCommand(i, state),
             UseCommand u => ProcessUseCommand(u, state),
             PickUpCommand p => ProcessPickUpCommand(p, state),
+            ItemUsedUpCommand iuu => ProcessItemUsedUpCommand(iuu),
             WaitCommand _ => true,
             NullCommand _ => false,
             _ => throw new InvalidOperationException("This type of command is not yet handled")
@@ -75,6 +76,18 @@ namespace BurglarOfBabylon.Commands
 
             useCommand.Item.Use(useCommand.Originator, state);
             return true;
+        }
+
+        private static bool ProcessItemUsedUpCommand(ItemUsedUpCommand itemUsedUpCommand)
+        {
+            if (itemUsedUpCommand.Originator is null)
+            {
+                throw new ArgumentNullException(nameof(itemUsedUpCommand.Originator));
+            }
+
+            itemUsedUpCommand.Originator.Inventory.Remove(itemUsedUpCommand.ItemUsedUp);
+
+            return false;
         }
     }
 }

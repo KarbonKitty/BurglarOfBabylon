@@ -7,13 +7,23 @@ namespace BurglarOfBabylon.Items
     {
         public string Name { get; }
         public GameTile Presentation { get; }
-        public Action<Actor, GameState> Use { get; }
+        protected virtual Action<Actor, GameState>? Usage { get; set; }
 
-        public Item(string name, GameTile presentation, Action<Actor, GameState> use)
+        public Item(string name, GameTile presentation, Action<Actor, GameState>? use = null)
         {
             Name = name;
             Presentation = presentation;
-            Use = use;
+            Usage = use;
         }
+
+        public virtual void Use(Actor user, GameState state)
+        {
+            if (CanBeUsed())
+            {
+                Usage!(user, state);
+            }
+        }
+
+        public bool CanBeUsed() => Usage != null;
     }
 }

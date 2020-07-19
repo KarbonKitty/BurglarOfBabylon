@@ -1,6 +1,7 @@
 using System.Linq;
 using BurglarOfBabylon.AI;
 using BurglarOfBabylon.Commands;
+using BurglarOfBabylon.Items;
 using RogueSheep;
 using RogueSheep.Display;
 using RogueSheep.FieldOfView;
@@ -108,7 +109,15 @@ namespace BurglarOfBabylon
             {
                 if (gameState.Player.Inventory.Count > i)
                 {
-                    hudDisplay.Draw($"{i+1} - {gameState.Player.Inventory[i].Name}", (1, 5 + i));
+                    var currentItem = gameState.Player.Inventory[i];
+                    if (currentItem is LimitedUseItem lui)
+                    {
+                        hudDisplay.Draw($"{i + 1} - {lui.Name}, uses left: {lui.ChargesLeft}", (1, 5 + i));
+                    }
+                    else
+                    {
+                        hudDisplay.Draw($"{i + 1} - {currentItem.Name}", (1, 5 + i));
+                    }
                 }
             }
         }
