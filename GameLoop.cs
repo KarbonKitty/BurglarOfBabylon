@@ -67,9 +67,9 @@ namespace BurglarOfBabylon
 
                 foreach (var actor in gameState.CurrentMap.Actors)
                 {
-                    if (!(actor.Brain is PlayerBrain))
+                    if (actor.Role == ActorRole.Guard)
                     {
-                        guardsVisibility = fovFactory.Compute(actor.Position, 6, VisibilityAngle.QuarterCircle, actor.Direction);
+                        guardsVisibility = fovFactory.Compute(actor.Position, 6, VisibilityAngle.QuarterCircle, actor.Direction, guardsVisibility);
                     }
                 }
 
