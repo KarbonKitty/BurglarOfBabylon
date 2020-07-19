@@ -19,6 +19,9 @@ namespace BurglarOfBabylon
         public MessageBuffer Messages { get; }
         public DateTime CurrentTime { get; set; }
 
+        // TODO: should each actor have this? or list of visibile tiles?
+        public GameGrid<bool> PlayerVisibilityGrid { get; set; }
+
         public GameState()
         {
             var dto = DateTimeOffset.FromUnixTimeSeconds(int.MaxValue);
@@ -49,6 +52,8 @@ namespace BurglarOfBabylon
             };
 
             CurrentMap = new Map(mapObjects, actors, onMapItems);
+
+            PlayerVisibilityGrid = new GameGrid<bool>(CurrentMap.Size);
         }
     }
 }

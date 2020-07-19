@@ -63,6 +63,7 @@ namespace BurglarOfBabylon
                 // so we can pass anything we want as the center
                 var fovFactory = new BevelledWallShadowcasting(gameState.CurrentMap.TransparencyGrid);
                 var visibilityGrid = fovFactory.Compute(gameState.Player.Position, 8, VisibilityAngle.HalfCircle, gameState.Player.Direction);
+                gameState.PlayerVisibilityGrid = visibilityGrid;
 
                 var guardsVisibility = new GameGrid<bool>(gameState.CurrentMap.Size);
 
@@ -185,9 +186,7 @@ namespace BurglarOfBabylon
                 Point2i pixelPositionInside = (e.X - mainDisplay.Offset.X, e.Y - mainDisplay.Offset.Y);
                 Point2i gridPositionInside = (pixelPositionInside.X / DisplayConsts.MainFontWidth, pixelPositionInside.Y / DisplayConsts.MainFontHeight);
 
-                var description = gameState.CurrentMap.GetDescription(gridPositionInside);
-
-                gameState.Messages.Push(description);
+                ((PlayerBrain)gameState.Player.Brain).StoredCommand = new LookCommand(gameState.Player, gridPositionInside);
             }
         }
     }

@@ -1,4 +1,5 @@
 using System;
+using System.Linq;
 using RogueSheep;
 
 namespace BurglarOfBabylon.Commands
@@ -12,6 +13,7 @@ namespace BurglarOfBabylon.Commands
             UseCommand u => ProcessUseCommand(u, state),
             PickUpCommand p => ProcessPickUpCommand(p, state),
             ItemUsedUpCommand iuu => ProcessItemUsedUpCommand(iuu),
+            LookCommand l => ProcessLookCommand(l, state),
             WaitCommand _ => true,
             NullCommand _ => false,
             _ => throw new InvalidOperationException("This type of command is not yet handled")
@@ -86,6 +88,32 @@ namespace BurglarOfBabylon.Commands
             }
 
             itemUsedUpCommand.Originator.Inventory.Remove(itemUsedUpCommand.ItemUsedUp);
+
+            return false;
+        }
+
+        private static bool ProcessLookCommand(LookCommand lookCommand, GameState state)
+        {
+            if (lookCommand.Originator != state.Player)
+            {
+                return false;
+            }
+
+            if (state.PlayerVisibilityGrid[lookCommand.Position])
+            {
+                var actor = state.CurrentMap.Actors.FirstOrDefault(a => a.Position == lookCommand.Position);
+                if (actor != null)
+                {
+                    state.Messages.Push($"{actor.Name} is standing here.");
+                }
+
+                if (state.CurrentMap.Items.TryGetValue(lookCommand.Position, out var item))
+                {
+                    state.Messages.Push($"There is a {item.Name} lying here.");
+                }
+            }
+
+            state.Messages.Push(state.CurrentMap.GetDescription(lookCommand.Position));
 
             return false;
         }
