@@ -1,9 +1,19 @@
+using System;
+using System.Collections.Generic;
+using BurglarOfBabylon.Items;
+using RogueSheep;
+
 namespace BurglarOfBabylon.Maps
 {
-    public static class Floor38
+    public static partial class MapData
     {
-        public static readonly char[] Tiles =
-           ("                                                            " +
+        public static MapDefinition Floor38 = new MapDefinition
+        (
+            "Floor 38",
+            (2, 18),
+            Array.Empty<Actor>(),
+            new Dictionary<Point2i, Item>(),
+            "                                                            " +
             "                                                            " +
             "                                                            " +
             "                                                            " +
@@ -62,6 +72,6 @@ namespace BurglarOfBabylon.Maps
             "                                                            " +
             "                                                            " +
             "                                                            " +
-            "                                                            ").ToCharArray();
+            "                                                            ");
     }
 }

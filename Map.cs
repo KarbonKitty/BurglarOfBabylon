@@ -12,7 +12,7 @@ namespace BurglarOfBabylon
     {
         public Dictionary<Point2i, Item> Items { get; }
 
-        public Map(MapObject[] tiles, IEnumerable<Actor> actors, IDictionary<Point2i, Item> items)
+        public Map(MapObject[] tiles, IEnumerable<Actor> actors, IReadOnlyDictionary<Point2i, Item> items)
             : base(tiles,
                 GameConsts.MapWidth,
                 actors,

@@ -15,5 +15,15 @@ namespace BurglarOfBabylon.Maps
             gameState.CurrentMap.ReplaceObject(doorPosition, TileDefinitions.Door);
             return true;
         }
+
+        public static bool MoveToNewMap(Actor? mover, Point2i portalPosition, GameState gameState)
+        {
+            if (mover != null && mover == gameState.Player && gameState.CurrentMapName != MapData.Office.Name)
+            {
+                gameState.ChangeMap(MapData.Office);
+                return true;
+            }
+            return false;
+        }
     }
 }

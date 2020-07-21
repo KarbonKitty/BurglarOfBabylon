@@ -21,7 +21,7 @@ namespace BurglarOfBabylon.Maps
         public static readonly MapObject Nightstand = new MapObject("nightstand", "Tiny nightstand, made out of the omnipresent light-blue plastic.", new GameTile(CP437Glyph.ReverseNegation, Colors.PlasticBlue), false, true);
         public static readonly MapObject OpenAir = new MapObject("open air", "Open air. Don't fall down.", new GameTile(CP437Glyph.Empty), passable: false, transparent: true);
         public static readonly MapObject StairsUp = new MapObject("stairs up", "This staircase is leading up from here.", new GameTile(CP437Glyph.RightAngleBracket, RogueColor.White));
-        public static readonly MapObject StairsDown = new MapObject("stairs down", "This staircase is leading down from here.", new GameTile(CP437Glyph.LeftAngleBracket, RogueColor.White));
+        public static readonly MapObject StairsDown = new MapObject("stairs down", "This staircase is leading down from here.", new GameTile(CP437Glyph.LeftAngleBracket, RogueColor.White), interaction: Interactions.MoveToNewMap);
         public static readonly MapObject ReinforcedDoor = new MapObject("secure door", "Closed doors made out of steel, with complex lock.", new GameTile(CP437Glyph.PlusMinus, RogueColor.SteelBlue), false, false);
         public static readonly MapObject ElevatorFloor = new MapObject("elevator", "Elevator floor covered in linoleum.", new GameTile(CP437Glyph.Underscore, RogueColor.White));
 

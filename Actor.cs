@@ -43,5 +43,10 @@ namespace BurglarOfBabylon
         }
 
         public Command Act(GameState gameState) => Brain.Act(this, gameState);
+
+        public void Place(Point2i position)
+        {
+            Position = position;
+        }
     }
 }
