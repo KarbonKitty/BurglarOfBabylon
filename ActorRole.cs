@@ -3,6 +3,7 @@ namespace BurglarOfBabylon
     public enum ActorRole
     {
         Inflirtator,
-        Guard
+        Guard,
+        Friend
     }
 }

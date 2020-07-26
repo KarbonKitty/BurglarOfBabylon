@@ -17,8 +17,9 @@ namespace BurglarOfBabylon
         public ActorBrain Brain { get; }
         public ActorRole Role { get; }
         public List<Item> Inventory { get; }
+        public List<string> Dialogue { get; }
 
-        public Actor(string name, Point2i position, GameTile presentation, Direction direction, ActorBrain brain, ActorRole role)
+        public Actor(string name, Point2i position, GameTile presentation, Direction direction, ActorBrain brain, ActorRole role, List<string> dialogue)
         {
             Name = name;
             Position = position;
@@ -27,6 +28,7 @@ namespace BurglarOfBabylon
             Brain = brain;
             Role = role;
             Inventory = new List<Item>();
+            Dialogue = dialogue;
         }
 
         public bool Move(Direction direction)
@@ -48,5 +50,7 @@ namespace BurglarOfBabylon
         {
             Position = position;
         }
+
+        public string Talk() => Dialogue.Count == 0 ? string.Empty : Dialogue[RNG.Next(Dialogue.Count)];
     }
 }

@@ -14,10 +14,23 @@ namespace BurglarOfBabylon.Commands
             PickUpCommand p => ProcessPickUpCommand(p, state),
             ItemUsedUpCommand iuu => ProcessItemUsedUpCommand(iuu),
             LookCommand l => ProcessLookCommand(l, state),
+            TalkCommand t => ProcessTalkCommand(t, state),
             WaitCommand _ => true,
             NullCommand _ => false,
             _ => throw new InvalidOperationException("This type of command is not yet handled")
         };
+
+        private static bool ProcessTalkCommand(TalkCommand talkCommand, GameState state)
+        {
+            var talkTarget = state.CurrentMap.Actors.SingleOrDefault(a => a.Position == talkCommand.TargetPosition);
+            if (talkTarget is null)
+            {
+                return false;
+            }
+
+            state.Messages.Push($"{talkTarget.Name} says: {talkTarget.Talk()}");
+            return true;
+        }
 
         private static bool ProcessPickUpCommand(PickUpCommand pickUpCommand, GameState state)
         {

@@ -28,7 +28,7 @@ namespace BurglarOfBabylon
             var dto = DateTimeOffset.FromUnixTimeSeconds(int.MaxValue);
             CurrentTime = dto.DateTime;
             Messages = new MessageBuffer(DisplayConsts.MessageDisplaySize.Y - 2);
-            Player = new Actor("Bob", (58, 58), new GameTile(CP437Glyph.AtSign, RogueColor.Lime), Direction.North, new PlayerBrain(), ActorRole.Inflirtator);
+            Player = new Actor("Bob", (58, 58), new GameTile(CP437Glyph.AtSign, RogueColor.Lime), Direction.North, new PlayerBrain(), ActorRole.Inflirtator, new List<string>());
             Player.Inventory.Add(new Item(ItemDefinitions.Watch));
 
             Scheduler = new RoundRobinScheduler<Actor>();

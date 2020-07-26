@@ -23,6 +23,7 @@ namespace BurglarOfBabylon
                 InputState.General => HandleGeneralCase(e),
                 InputState.UseInDirection => HandleUseInDirection(e),
                 InputState.UseFromInventory => HandleUseFromInventory(e),
+                InputState.TalkInDirection => HandleTalkInDirection(e),
 
                 _ => throw new InvalidOperationException("Only named enum values should be used")
             };
@@ -48,6 +49,8 @@ namespace BurglarOfBabylon
 
                 Keyboard.Key.U => SwitchToState(InputState.UseInDirection),
 
+                Keyboard.Key.T => SwitchToState(InputState.TalkInDirection),
+
                 Keyboard.Key.I => SwitchToState(InputState.UseFromInventory),
 
                 _ => new NullCommand()
@@ -60,6 +63,16 @@ namespace BurglarOfBabylon
             if (KeyToDirection(e) != Direction.None)
             {
                 return new InteractionCommand(gameState.Player, KeyToDirection(e));
+            }
+            return new NullCommand();
+        }
+
+        private Command HandleTalkInDirection(KeyEventArgs e)
+        {
+            State = InputState.General;
+            if (KeyToDirection(e) != Direction.None)
+            {
+                return new TalkCommand(gameState.Player, gameState.Player.Position.Transform(KeyToDirection(e)));
             }
             return new NullCommand();
         }
@@ -121,6 +134,7 @@ namespace BurglarOfBabylon
     {
         General,
         UseInDirection,
-        UseFromInventory
+        UseFromInventory,
+        TalkInDirection
     }
 }

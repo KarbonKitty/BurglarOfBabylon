@@ -14,10 +14,10 @@ namespace BurglarOfBabylon.Maps
             (58, 58),
             new Actor[]
             {
-                new Actor("Third random guard", (31, 50), new GameTile(CP437Glyph.CapitalG, RogueColor.Magenta), Direction.North, new PatrolBrain((31, 50), (51, 30)), ActorRole.Guard),
-                new Actor("Fourth random guard", (22, 10), new GameTile(CP437Glyph.CapitalG, RogueColor.Magenta), Direction.North, new PatrolBrain((22, 10), (51, 30)), ActorRole.Guard),
-                new Actor("Random guard", (5, 23), new GameTile(CP437Glyph.CapitalG, RogueColor.DarkMagenta), Direction.North, new PatrolBrain((5, 23), (5, 38)), ActorRole.Guard),
-                new Actor("Another random guard", (1, 42), new GameTile(CP437Glyph.CapitalG, RogueColor.Magenta), Direction.North, new PatrolBrain((1, 42), (19, 58)), ActorRole.Guard),
+                new Actor("Third random guard", (31, 50), new GameTile(CP437Glyph.CapitalG, RogueColor.Magenta), Direction.North, new PatrolBrain((31, 50), (51, 30)), ActorRole.Guard, new List<string>()),
+                new Actor("Fourth random guard", (22, 10), new GameTile(CP437Glyph.CapitalG, RogueColor.Magenta), Direction.North, new PatrolBrain((22, 10), (51, 30)), ActorRole.Guard, new List<string>()),
+                new Actor("Random guard", (5, 23), new GameTile(CP437Glyph.CapitalG, RogueColor.DarkMagenta), Direction.North, new PatrolBrain((5, 23), (5, 38)), ActorRole.Guard, new List<string>()),
+                new Actor("Another random guard", (1, 42), new GameTile(CP437Glyph.CapitalG, RogueColor.Magenta), Direction.North, new PatrolBrain((1, 42), (19, 58)), ActorRole.Guard, new List<string>()),
             },
             new Dictionary<Point2i, Item>
             {
