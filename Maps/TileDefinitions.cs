@@ -28,7 +28,7 @@ namespace BurglarOfBabylon.Maps
         public static readonly MapObject OfficeChair = new MapObject("office chair", "Typical gray office chair. Seems comfortable enough.", new GameTile(CP437Glyph.SingleHorizontalLineDoubleDown, RogueColor.Grey));
         public static readonly MapObject OfficeDesk = new MapObject("office desk", "Standard corporate office desk. Slightly, but inoffensievly, off-white.", new GameTile(CP437Glyph.ParagraphEnd, RogueColor.White), false, true);
         public static readonly MapObject StorageCabinet = new MapObject("office storage cabinet", "Wooden storage cabinet, full of old-school, dead-tree documents.", new GameTile(CP437Glyph.TripleEquals, RogueColor.SandyBrown), false, false);
-        public static readonly MapObject Mainframe = new MapObject("mainframe", "VLC, or Very Large Computer. In reality, most likely a bunch of normally-sized computers in a trench coat.", new GameTile(CP437Glyph.Sun, RogueColor.Silver), false, false);
+        public static readonly MapObject Mainframe = new MapObject("mainframe", "VLC, or Very Large Computer. In reality, most likely a bunch of normally-sized computers in a trench coat.", new GameTile(CP437Glyph.Sun, RogueColor.Silver), false, false, Interactions.StealData);
         public static readonly MapObject LowDoor = new MapObject("low door", "Waist height door. Closed.", new GameTile(CP437Glyph.SteppingStone, RogueColor.RosyBrown), true, true);
         public static readonly MapObject OfficePlant = new MapObject("office plant", "Rare example of something actually alive being in this office, an lush green plant. LED lights seem to agree with it.", new GameTile(CP437Glyph.Spade, RogueColor.DarkGreen), false, false);
 
