@@ -1,36 +1,37 @@
-using System;
+using BurglarOfBabylon.Commands;
 using RogueSheep.Display;
 
 namespace BurglarOfBabylon.Items
 {
     public class Item : IPresentable
     {
-        public string Name { get; }
-        public GameTile Presentation { get; }
-        protected virtual Action<Actor, GameState>? Usage { get; set; }
+        public virtual ItemDefinition Template { get; }
 
-        public Item(string name, GameTile presentation, Action<Actor, GameState>? use = null)
-        {
-            Name = name;
-            Presentation = presentation;
-            Usage = use;
-        }
+        public GameTile Presentation => Template.Presentation;
 
-        public Item(Item itemToClone)
+        public int? UsesLeft { get; private set; }
+
+        public Item(ItemDefinition template)
         {
-            Name = itemToClone.Name;
-            Presentation = new GameTile(itemToClone.Presentation);
-            Usage = itemToClone.Usage;
+            Template = template;
         }
 
         public virtual void Use(Actor user, GameState state)
         {
             if (CanBeUsed())
             {
-                Usage!(user, state);
+                Template.Usage!(user, state);
+                if (Template.MaxUses != null)
+                {
+                    UsesLeft--;
+                    if (UsesLeft == 0)
+                    {
+                        CommandProcessor.ProcessCommand(new ItemUsedUpCommand(user, this), state);
+                    }
+                }
             }
         }
 
-        public bool CanBeUsed() => Usage != null;
+        public bool CanBeUsed() => Template.Usage != null;
     }
 }

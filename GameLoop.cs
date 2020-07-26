@@ -111,13 +111,13 @@ namespace BurglarOfBabylon
                 if (gameState.Player.Inventory.Count > i)
                 {
                     var currentItem = gameState.Player.Inventory[i];
-                    if (currentItem is LimitedUseItem lui)
+                    if (currentItem.UsesLeft != null)
                     {
-                        hudDisplay.Draw($"{i + 1} - {lui.Name}, uses left: {lui.ChargesLeft}", (1, 5 + i));
+                        hudDisplay.Draw($"{i + 1} - {currentItem.Template.Name}, uses left: {currentItem.UsesLeft}", (1, 5 + i));
                     }
                     else
                     {
-                        hudDisplay.Draw($"{i + 1} - {currentItem.Name}", (1, 5 + i));
+                        hudDisplay.Draw($"{i + 1} - {currentItem.Template.Name}", (1, 5 + i));
                     }
                 }
             }

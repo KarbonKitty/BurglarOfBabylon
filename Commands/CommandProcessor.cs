@@ -122,7 +122,7 @@ namespace BurglarOfBabylon.Commands
 
                 if (state.CurrentMap.Items.TryGetValue(lookCommand.Position, out var item))
                 {
-                    state.Messages.Push($"There is a {item.Name} lying here.");
+                    state.Messages.Push($"There is a {item.Template.Name} lying here.");
                 }
             }
 

@@ -1,3 +1,5 @@
+using System.Linq;
+using BurglarOfBabylon.Items;
 using RogueSheep;
 
 namespace BurglarOfBabylon.Maps
@@ -24,6 +26,23 @@ namespace BurglarOfBabylon.Maps
                 return true;
             }
             return false;
+        }
+
+        public static bool OpenSecureDoor(Actor? opener, Point2i doorPosition, GameState gameState)
+        {
+            if (opener is null)
+            {
+                return false;
+            }
+            else if (opener.Inventory.Any(i => i.Template == ItemDefinitions.Keycard))
+            {
+                gameState.CurrentMap.ReplaceObject(doorPosition, TileDefinitions.OpenDoor);
+            }
+            else if (opener == gameState.Player)
+            {
+                gameState.Messages.Push("You can't open those doors without a keycard.");
+            }
+            return true;
         }
     }
 }
