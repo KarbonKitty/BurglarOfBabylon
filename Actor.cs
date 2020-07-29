@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using BurglarOfBabylon.AI;
 using BurglarOfBabylon.Commands;
+using BurglarOfBabylon.Conditions;
 using BurglarOfBabylon.Items;
 using RogueSheep;
 using RogueSheep.Display;
@@ -18,6 +19,7 @@ namespace BurglarOfBabylon
         public ActorRole Role { get; }
         public List<Item> Inventory { get; }
         public List<string> Dialogue { get; }
+        public List<Condition> Conditions { get; }
 
         public Actor(string name, Point2i position, GameTile presentation, Direction direction, ActorBrain brain, ActorRole role, List<string> dialogue)
         {
@@ -29,6 +31,7 @@ namespace BurglarOfBabylon
             Role = role;
             Inventory = new List<Item>();
             Dialogue = dialogue;
+            Conditions = new List<Condition>();
         }
 
         public bool Move(Direction direction)

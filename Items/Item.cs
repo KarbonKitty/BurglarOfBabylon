@@ -1,4 +1,5 @@
 using BurglarOfBabylon.Commands;
+using RogueSheep;
 using RogueSheep.Display;
 
 namespace BurglarOfBabylon.Items
@@ -16,22 +17,33 @@ namespace BurglarOfBabylon.Items
             Template = template;
         }
 
-        public virtual void Use(Actor user, GameState state)
+        public virtual void Use(Actor user, GameState state, Direction? direction = null)
         {
-            if (CanBeUsed())
+            var used = false;
+            if (Template.Usage != null)
             {
                 Template.Usage!(user, state);
-                if (Template.MaxUses != null)
+                used = true;
+            }
+
+            if (Template.DirectionalUsage != null && direction.HasValue)
+            {
+                Template.DirectionalUsage(user, direction.Value, state);
+                used = true;
+            }
+
+            if (used && Template.MaxUses != null)
+            {
+                UsesLeft--;
+                if (UsesLeft == 0)
                 {
-                    UsesLeft--;
-                    if (UsesLeft == 0)
-                    {
-                        CommandProcessor.ProcessCommand(new ItemUsedUpCommand(user, this), state);
-                    }
+                    CommandProcessor.ProcessCommand(new ItemUsedUpCommand(user, this), state);
                 }
             }
         }
 
-        public bool CanBeUsed() => Template.Usage != null;
+        public bool CanBeUsed() => Template.Usage != null || Template.DirectionalUsage != null;
+
+        public bool IsDirectional() => Template.DirectionalUsage != null;
     }
 }

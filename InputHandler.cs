@@ -11,6 +11,8 @@ namespace BurglarOfBabylon
         private readonly GameState gameState;
         public InputState State { get; private set; }
 
+        private int? InventoryPosition { get; set; }
+
         public InputHandler(GameState gameState)
         {
             this.gameState = gameState;
@@ -24,6 +26,7 @@ namespace BurglarOfBabylon
                 InputState.UseInDirection => HandleUseInDirection(e),
                 InputState.UseFromInventory => HandleUseFromInventory(e),
                 InputState.TalkInDirection => HandleTalkInDirection(e),
+                InputState.UseFromInventoryInDirection => HandleUseFromInventoryInDirection(e),
 
                 _ => throw new InvalidOperationException("Only named enum values should be used")
             };
@@ -116,10 +119,30 @@ namespace BurglarOfBabylon
                 var inventoryPosition = (int)e.Code - 27;
                 if (gameState.Player.Inventory.Count > inventoryPosition)
                 {
+                    if (gameState.Player.Inventory[inventoryPosition].IsDirectional())
+                    {
+                        InventoryPosition = inventoryPosition;
+                        SwitchToState(InputState.UseFromInventoryInDirection);
+                    }
                     return new UseCommand(gameState.Player, gameState.Player.Inventory[inventoryPosition]);
                 }
             }
 
+            return new NullCommand();
+        }
+
+        private Command HandleUseFromInventoryInDirection(KeyEventArgs e)
+        {
+            State = InputState.General;
+            if (KeyToDirection(e) != Direction.None)
+            {
+                var inventoryPosition = InventoryPosition;
+                InventoryPosition = null;
+                return new UseCommand(
+                    gameState.Player,
+                    gameState.Player.Inventory[inventoryPosition ?? throw new ArgumentNullException(nameof(InventoryPosition))],
+                    KeyToDirection(e));
+            }
             return new NullCommand();
         }
 
@@ -135,6 +158,7 @@ namespace BurglarOfBabylon
         General,
         UseInDirection,
         UseFromInventory,
-        TalkInDirection
+        TalkInDirection,
+        UseFromInventoryInDirection
     }
 }

@@ -25,7 +25,8 @@ namespace BurglarOfBabylon.Maps
                 [(57, 19)] = new Item(ItemDefinitions.SignalJammer),
                 [(58, 2)] = new Item(ItemDefinitions.SignalJammer),
                 [(19, 58)] = new Item(ItemDefinitions.SignalJammer),
-                [(12, 51)] = new Item(ItemDefinitions.Keycard)
+                [(12, 51)] = new Item(ItemDefinitions.Keycard),
+                [(58, 58)] = new Item(ItemDefinitions.StunGun),
             },
             "############################################################" +
             "#M.#DDDDDDDDDDDDDDDD#.....C#CCCCC#.....#csscccccccccc#CCCCC#" +

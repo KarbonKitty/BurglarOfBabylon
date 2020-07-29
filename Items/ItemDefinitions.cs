@@ -1,3 +1,5 @@
+using System.Linq;
+using BurglarOfBabylon.Conditions;
 using RogueSheep;
 using RogueSheep.Display;
 
@@ -10,5 +12,18 @@ namespace BurglarOfBabylon.Items
         public static ItemDefinition Keycard = new ItemDefinition("keycard", new GameTile(CP437Glyph.Diamond, RogueColor.Red), (a, gs) => gs.Messages.Push("When you try to open the door, the keycard will be used automatically."));
 
         public static ItemDefinition StolenData = new ItemDefinition("*STOLEN DATA*", new GameTile(CP437Glyph.Dollar, RogueColor.BlueViolet), (a, gs) => gs.Messages.Push("Just get out of here with it!"));
+
+        public static ItemDefinition StunGun = new ItemDefinition("stun gun", new GameTile(CP437Glyph.ExclamationMark, RogueColor.LightBlue), directionalUse: (a, d, gs) => {
+            var target = gs.CurrentMap.Actors.SingleOrDefault(t => t.Position == a.Position.Transform(d));
+            if (target != null)
+            {
+                target.Conditions.Add(new StunnedCondition(3));
+                gs.Messages.Push($"{target.Name} was stunned!");
+            }
+            else
+            {
+                gs.Messages.Push("Nobody to stun there!");
+            }
+        });
     }
 }

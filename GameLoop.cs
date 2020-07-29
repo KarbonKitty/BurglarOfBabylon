@@ -1,6 +1,7 @@
 using System.Linq;
 using BurglarOfBabylon.AI;
 using BurglarOfBabylon.Commands;
+using BurglarOfBabylon.Conditions;
 using BurglarOfBabylon.Items;
 using RogueSheep;
 using RogueSheep.Display;
@@ -157,12 +158,23 @@ namespace BurglarOfBabylon
         {
             while (true)
             {
-                var command = gameState.Scheduler.Current().Act(gameState);
+                Command command;
+                if (gameState.Scheduler.Current().Conditions.Any(c => c is StunnedCondition))
+                {
+                    command = new WaitCommand(gameState.Scheduler.Current());
+                }
+                else
+                {
+                    command = gameState.Scheduler.Current().Act(gameState);
+                }
 
                 var turnEnded = CommandProcessor.ProcessCommand(command, gameState);
 
                 if (turnEnded)
                 {
+                    var currentActor = gameState.Scheduler.Current();
+                    currentActor.Conditions.ForEach(c => c.TimePasses());
+                    currentActor.Conditions.RemoveAll(c => c.TimeLeft <= 0);
                     gameState.Scheduler.Next();
                     if (gameState.Scheduler.Current().Role == ActorRole.Inflirtator)
                     {
